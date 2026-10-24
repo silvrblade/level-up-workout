@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#58cc02">
+<meta name="description" content="Your five exercises. Eight weeks. Real progress.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Level Up — 8-Week Backpack Workout</title>
+<style>
+:root{--green:#58cc02;--darkgreen:#46a302;--ink:#243044;--muted:#6b778c;--bg:#f5f7fb;--card:#fff;--line:#e4e9f0;--blue:#3979e8;--orange:#ffb020}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#58cc02,#8ee000);padding:26px 18px 32px;color:#173400}
+.wrap{max-width:900px;margin:auto;padding:0 16px}h1{font-size:clamp(28px,5vw,42px);margin:0 0 5px;font-weight:900}header p{margin:0;opacity:.85}
+main{margin-top:-17px;padding-bottom:40px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;margin-bottom:15px;box-shadow:0 5px 16px #1c2d4810}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--muted)}
+.big{font-size:26px;font-weight:900}.muted{color:var(--muted)}.pill{border-radius:999px;padding:6px 11px;background:#eef8e7;color:#397c08;font-weight:800;font-size:12px}
+.progress{height:13px;border-radius:999px;background:#e8edf2;overflow:hidden;margin:10px 0}.fill{height:100%;background:var(--green);border-radius:999px;transition:width .25s}
+button{border:0;border-radius:13px;padding:11px 15px;font:inherit;font-weight:800;cursor:pointer;background:var(--green);color:#173400}button:hover{filter:brightness(.97)}button.secondary{background:#edf1f7;color:var(--ink)}button:disabled{opacity:.45;cursor:not-allowed}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.day{border:1px solid var(--line);border-radius:12px;text-align:center;padding:10px 2px;background:#fff;cursor:pointer}.day strong{display:block;font-size:12px}.day span{font-size:19px}.day.selected{border:2px solid var(--green);background:#f4ffe9}.day.done{background:#e8f9db;border-color:#b5e78e}
+.exercise{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}.exercise:last-child{border-bottom:0}.exercise input{width:21px;height:21px;accent-color:var(--green);margin-top:3px;flex-shrink:0}.exercise strong{display:block}.exercise small{color:var(--muted);display:block;margin-top:3px}
+.weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.week{border:1px solid var(--line);border-radius:14px;padding:12px}.week strong{display:block}.week small{color:var(--muted)}
+.note{font-size:13px;color:var(--muted);line-height:1.5}.streak{font-size:23px;font-weight:900}.footer{text-align:center;color:var(--muted);font-size:12px;padding:8px}
+@media(max-width:540px){.days{gap:4px}.day{padding:9px 0}.weeks{grid-template-columns:repeat(2,1fr)}.card{padding:16px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div style="font-weight:900;letter-spacing:.1em;font-size:12px">YOUR HOME FITNESS QUEST</div><h1>Level Up 💪</h1><p>Your five exercises. Eight weeks. Real progress.</p></div></header>
+<main class="wrap">
+<section class="card">
+ <div class="row"><div><div class="label">Your journey</div><div class="big" id="overallText">Week 1 of 8</div></div><div class="pill" id="percentPill">0% complete</div></div>
+ <div class="progress"><div class="fill" id="overallFill" style="width:0%"></div></div>
+ <div class="row"><span class="muted" id="sessionsText">0 of 28 workout sessions completed</span><span class="streak">🔥 <span id="streak">0</span></span></div>
+ <div class="note">Streak counts completed workout sessions. Rest days are part of the plan, too.</div>
+</section>
+<section class="card">
+ <div class="row"><div><div class="label">Today's session</div><div class="big" id="dayTitle">Workout Day 1</div></div><button class="secondary" id="todayBtn">Go to today</button></div>
+ <div class="days" id="days"></div>
+ <div style="margin-top:18px" class="row"><div><div class="label" id="sessionType">Strength workout</div><div class="muted" id="sessionSub">About 20 minutes</div></div><div class="pill" id="sessionStatus">IN PROGRESS</div></div>
+ <div class="progress"><div class="fill" id="sessionFill" style="width:0%"></div></div>
+ <div id="exerciseList"></div>
+ <div class="row" style="margin-top:14px"><button class="secondary" id="resetBtn">Reset session</button><button id="completeBtn">Complete session ✓</button></div>
+ <p class="note" id="sessionNote">Use a light backpack with books secured inside. Move slowly and stop if you feel pain. Ask an adult to check backpack weight and exercise form.</p>
+</section>
+<section class="card">
+ <div class="row"><div><div class="label">Eight-week map</div><div class="big">Your progress</div></div><span class="pill">🏆 8 levels</span></div>
+ <div class="weeks" id="weeks" style="margin-top:14px"></div>
+</section>
+<section class="card">
+ <div class="label">Keep it safe</div>
+ <p class="note">Alternate workout nights and rest nights. Start with a 3–5 minute warm-up. Keep the backpack secure and light, especially for lateral raises. Rest 45–90 seconds between sets. Increase reps gradually and only add weight if you can keep good form. Stop if you feel pain.</p>
+</section>
+<div class="footer">Your progress is saved in this browser on this device.</div>
+</main>
+<script>
+const exercises=[
+ {name:"Single-Arm Backpack Lateral Raises",dose:["2 × 10 each arm","2 × 12 each arm","2 × 12 each arm","3 × 10 each arm","3 × 12 each arm","3 × 12 each arm","3 × 15 each arm","3 × 15 each arm"],detail:"Use a very light backpack. Raise to about shoulder height without swinging; switch arms."},
+ {name:"Backpack Bent-Over Rows",dose:["2 × 8","2 × 10","3 × 8","3 × 10","3 × 10","3 × 12","3 × 12","3 × 12"],detail:"Hinge at the hips, keep your back flat, and pull the secure backpack toward your waist."},
+ {name:"Bodyweight / Backpack Squats (or Split Squats)",dose:["2 × 8","2 × 10","3 × 8","3 × 10","3 × 10","3 × 12","3 × 12","3 × 12"],detail:"Choose bodyweight squats, light backpack squats, or split squats. For split squats, do reps on each leg."},
+ {name:"Push-Ups",dose:["2 × 5–8","2 × 6–9","3 × 5–8","3 × 6–9","3 × 7–10","3 × 8–10","3 × 8–12","3 × 10–12"],detail:"Keep your body in a straight line. Use incline or knee push-ups if needed."},
+ {name:"Hollow Body Holds",dose:["3 × 10 sec","3 × 15 sec","3 × 15 sec","3 × 20 sec","3 × 20 sec","3 × 25 sec","3 × 30 sec","3 × 30 sec"],detail:"Keep your lower back pressed into the floor. Bend your knees or raise your legs higher if your back arches."}
+];
+const days=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const stateKey="levelUpWorkoutV2";
+let state;try{state=JSON.parse(localStorage.getItem(stateKey))||{checks:{},completed:{},selected:0}}catch(e){state={checks:{},completed:{},selected:0}}
+function save(){localStorage.setItem(stateKey,JSON.stringify(state));render()}
+function isWorkout(d){return d%2===0} // alternating workout and rest nights
+function weekOf(d){return Math.floor(d/7)}
+function key(d,i){return d+"-"+i}
+function render(){
+ const selected=Math.max(0,Math.min(55,state.selected||0));state.selected=selected;
+ const total=Array.from({length:56},(_,d)=>d).filter(isWorkout).length;
+ const done=Object.keys(state.completed).filter(k=>state.completed[k]&&isWorkout(+k)).length;
+ const pct=Math.round(done/total*100);
+ document.getElementById("overallText").textContent="Week "+(weekOf(selected)+1)+" of 8";
+ document.getElementById("percentPill").textContent=pct+"% complete";
+ document.getElementById("overallFill").style.width=pct+"%";
+ document.getElementById("sessionsText").textContent=done+" of "+total+" workout sessions completed";
+ let streak=0;for(let d=55;d>=0;d--){if(state.completed[d]&&isWorkout(d))streak++;else if(isWorkout(d))break}
+ document.getElementById("streak").textContent=streak;
+ const daysEl=document.getElementById("days");daysEl.innerHTML="";
+ for(let d=0;d<56;d++){
+   const b=document.createElement("button");b.className="day"+(d===selected?" selected":"")+(state.completed[d]?" done":"");
+   b.innerHTML="<strong>W"+(weekOf(d)+1)+"</strong><span>"+(state.completed[d]?"✓":(isWorkout(d)?"💪":"🌙"))+"</span>";
+   b.title="Day "+(d+1)+(isWorkout(d)?" — Workout":" — Rest");b.onclick=()=>{state.selected=d;save()};
+   if(d<7)daysEl.appendChild(b);
+ }
+ // Display the selected week as 7 day selectors; week arrows are represented by week tiles below.
+ daysEl.innerHTML="";
+ const start=weekOf(selected)*7;
+ for(let d=start;d<start+7;d++){
+   const b=document.createElement("button");b.className="day"+(d===selected?" selected":"")+(state.completed[d]?" done":"");
+   b.innerHTML="<strong>"+days[d%7]+"</strong><span>"+(state.completed[d]?"✓":(isWorkout(d)?"💪":"🌙"))+"</span>";
+   b.title="Day "+(d+1)+(isWorkout(d)?" — Workout":" — Rest");b.onclick=()=>{state.selected=d;save()};daysEl.appendChild(b);
+ }
+ const workout=isWorkout(selected);
+ document.getElementById("dayTitle").textContent="Day "+(selected+1)+" · Week "+(weekOf(selected)+1);
+ document.getElementById("sessionType").textContent=workout?"💪 Workout night":"🌙 Rest night";
+ document.getElementById("sessionSub").textContent=workout?"About 20–25 minutes":"Recover, stretch gently, or take an easy walk";
+ document.getElementById("sessionStatus").textContent=state.completed[selected]?"COMPLETED":(workout?"IN PROGRESS":"REST DAY");
+ const list=document.getElementById("exerciseList");list.innerHTML="";
+ if(workout){
+   exercises.forEach((ex,i)=>{
+     const checked=!!state.checks[key(selected,i)];
+     const div=document.createElement("label");div.className="exercise";
+     div.innerHTML='<input type="checkbox" '+(checked?'checked':'')+'><div><strong>'+ex.name+' <span class="muted">· '+ex.dose[weekOf(selected)]+'</span></strong><small>'+ex.detail+'</small></div>';
+     div.querySelector("input").onchange=e=>{state.checks[key(selected,i)]=e.target.checked;if(exercises.every((_,j)=>state.checks[key(selected,j)]))state.completed[selected]=true;else delete state.completed[selected];save()};
+     list.appendChild(div);
+   });
+ }else{
+   list.innerHTML='<div style="padding:22px 0;text-align:center"><div style="font-size:42px">🌱</div><strong>Recovery is training, too.</strong><p class="muted">No workout checklist tonight. Let your muscles recover and get ready for the next session.</p><label class="exercise"><input id="restCheck" type="checkbox" '+(state.completed[selected]?'checked':'')+'><div><strong>Rest day complete</strong><small>Optional: tick this to mark your recovery day.</small></div></label></div>';
+   list.querySelector("#restCheck").onchange=e=>{if(e.target.checked)state.completed[selected]=true;else delete state.completed[selected];save()};
+ }
+ const checks=workout?exercises.filter((_,i)=>state.checks[key(selected,i)]).length:(state.completed[selected]?1:0);
+ document.getElementById("sessionFill").style.width=(checks/(workout?exercises.length:1)*100)+"%";
+ document.getElementById("completeBtn").textContent=state.completed[selected]?"Mark incomplete":"Complete session ✓";
+ document.getElementById("completeBtn").disabled=false;
+ document.getElementById("resetBtn").disabled=false;
+ document.getElementById("completeBtn").onclick=()=>{if(state.completed[selected]){delete state.completed[selected]}else{state.completed[selected]=true;if(workout)exercises.forEach((_,i)=>state.checks[key(selected,i)]=true)}save()};
+ document.getElementById("resetBtn").onclick=()=>{exercises.forEach((_,i)=>delete state.checks[key(selected,i)]);delete state.completed[selected];save()};
+ document.getElementById("todayBtn").onclick=()=>{state.selected=0;save()};
+ const weeks=document.getElementById("weeks");weeks.innerHTML="";
+ for(let w=0;w<8;w++){let ds=Array.from({length:7},(_,i)=>w*7+i);let workoutDays=ds.filter(isWorkout);let target=workoutDays.length;let wd=workoutDays.filter(d=>state.completed[d]).length;let el=document.createElement("div");el.className="week";el.innerHTML="<strong>Week "+(w+1)+" "+(wd===target?"🏆":"")+"</strong><small>"+wd+"/"+target+" workouts</small><div class='progress'><div class='fill' style='width:"+(wd/target*100)+"%'></div></div><button class='secondary' style='width:100%;padding:7px;font-size:12px'>Open week</button>";el.querySelector("button").onclick=()=>{state.selected=w*7;save()};weeks.appendChild(el)}
+}
+render();
+</script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
+</body>
+</html>
